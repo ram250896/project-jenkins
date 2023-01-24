@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+    parameters {
+        string (name:"aws", defaultValue:"EC2", description:"i am using aws cloud")
+        booleanParam (name:"jenkins",defaultValue:"true", description:"i am using jenkins cloud")
+        choice(name:"branch",choices:["one","two","three","four"],description:"this is cp")
+    }
+    stages {
+        stage ('hello') {
+            steps {
+                echo 'i am  using parameter'
+            }
+        }
+        stage('hello-1') {
+            steps {
+                echo "hello world"
+            }
+        }
+        stage ('deploy'){
+            input {
+                message "can i deploy"
+                ok "yes you can"
+            }
+            steps {
+                echo "our code is depoly "
+            }
+        }
+    }
+    post{
+        always {
+            echo 'this will be printed anyway'
+        }
+        success {
+            echo "this will be printed if the build gets succsess"
+        }
+        failure {
+            echo "this will be printed even if the build gets failure"
+        }
+    }
+    
+}
